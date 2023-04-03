@@ -1,37 +1,268 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css">
-    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
-    <title> GEOG 485L/585L -- My First Map  </title>
-</head>
-<body>
-    <p>
-        My first map will appear here:
-    </p>
-    <div id="mapId" style="height:400px; width: 600px"></div>
-    <script>
-            // Bandelier Hall East lat/long: 35.0843° N, 106.6241° W
-            // creat a map variable "mymap" that points to the map placed in the mapId <div>
-            // zoom the view on Bandelier Hall East building at a 17 zoom level
-            var mymap = L.map('mapId').setView([35.0843, -106.6241], 17);
-
-            // create a variable named "osm" that is used to hold OpenStreetMap title layer
-            var osm = new L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
-
-            // add the OpenStreetMap title layer (i.e. the variable osm you defined above) to the map
-            osm.addTo(mymap);
-
-            // add a marker on the tile layer
-            var marker = L.marker([35.0843, -106.6241]).addTo(mymap);
-
-            // add a popup
-            // popups are usually used when you want to attach some information to a particular object on a map
-            marker.bindPopup("<b>Hello world!</b> <br><i>Bandelier Hall East</i> <br>University of New Mexico").openPopup();
-            //<b> tag is used to bold text
-            //<br> tag for new line
-            //<i> tag for italic text
-
+    <title>C.J. Allen</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
     </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js">
+    </script>
+
+<body style="background-color:#242524;"></body>
+<style>
+    body {
+        position: relative;
+    }
+
+    a:link {
+        color: #CCD3D7;
+        background-color: transparent;
+        text-decoration: none;
+    }
+
+    a:visited {
+        color: #A4ACAA;
+        background-color: transparent;
+        text-decoration: none;
+    }
+
+    a:hover {
+        color: red;
+        background-color: transparent;
+        text-decoration: underline;
+    }
+
+    h1 {
+        font: 30px optima, sans-serif;
+    }
+
+    h5 {
+        font: 15px optima, sans-serif;
+    }
+
+    li {
+        font: 15px optima, sans-serif;
+    }
+
+    ul.nav-pills {
+        top: 20px;
+        position: fixed;
+    }
+
+    div.col-sm-9 div {
+        height: 250px;
+        font-size: 18px;
+    }
+
+    a {
+        color: white;
+    }
+
+    #section1 {
+        color: white;
+        background-color: #1E7E60;
+    }
+
+    #section2 {
+        color: white;
+        background-color: #1E7466;
+    }
+
+    #section3 {
+        color: white;
+        background-color: #1E6A6C;
+    }
+
+    #section4 {
+        color: white;
+        background-color: #1E6072;
+    }
+
+    #section5 {
+        color: white;
+        background-color: #1F5778
+    }
+
+    #section6 {
+        color: white;
+        background-color: #2f2f2f;
+    }
+
+
+
+    .item img {
+        width: auto;
+        height: 600px;
+        max-height: 600px;
+        margin: auto;
+        display: block;
+    }
+
+    .carousel-caption {
+        background: rgba(0, 0, 0, 0.35);
+        padding: 20px;
+    }
+</style>
+</head>
+
+<body data-spy="scroll" data-target="#myScrollspy" data-offset="20">
+    <div class="container">
+        <div class="row">
+            <nav class="col-sm-2" id="myScrollspy">
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="active"><a href="#section1">
+                            <b>C.J. Allen</b></a></li>
+                    <li><a href="#section2"><b>CV</b></a></li>
+                    <li><a href="#section3"><b>Research Interests</b></a></li>
+                    <li><a href="#section4"><b>Portfolio</b></a></li>
+                    <li><a href="#section5"><b>Contact</b></a></li>
+                </ul>
+            </nav>
+            <div class="col-sm-10">
+                <div id="section1">
+                    <center>
+                        <p><br></p>
+                        <h1><u>C.J. Allen</u></h1>
+                        <img src="me.png" class="img-responsive img-circle margin" style="display:inline"
+                            alt="C.J. Allen headshot" width="225" height="225">
+                        <h5>I'm a geographer and planner with a BS in Geography and emphasis in GIScience, a minor in
+                            Sustainability, and an
+                            AA in Environmental Planning and Design. I'm proficient in QGIS, ArcMap, and AutoCAD with
+                            light coding experience.
+                            Before and during college I was a small-scale regenerative farmer for several years with
+                            experience also in
+                            construction.</h5>
+                        <p> <br> </p>
+
+                    </center>
+                </div>
+                <div id="section2">
+                    <center>
+                        <p><br></p>
+                        <h1><u>CV</u></h1>
+                        <img src="CV1.jpg" class="img-responsive" style="display:inline" alt="C.J. Allen's CV"
+                            width="500" height="500">
+                        <p><br></p>
+                        <img src="CV2.jpg" class="img-responsive" style="display:inline" alt="C.J. Allen's CV"
+                            width="500" height="500">
+                        <p><br></p>
+                        <img src="CV3.jpg" class="img-responsive" style="display:inline" alt="C.J. Allen's CV"
+                            width="500" height="500">
+
+                        <h5><i>CV current as of 04/03/2023</i></h5>
+                        <p><br></p>
+
+                    </center>
+                </div>
+                <div id="section3">
+                    <center>
+                        <p><br></p>
+                        <h1><u>Research Interests</u></h1>
+                        <h5>My coursework has focused on agroecology, sustainability, and the needs of rural
+                            agricultural regions of NM. I
+                            aspire to apply these interests to sustainable development and land use, the effects of
+                            climate change on global
+                            small agricultural communities, and conservation. My work for my internship with the city of
+                            Albuquerque focused
+                            on creating resource maps of composting facilities, and creation of a map conparing heat
+                            vulnerability and social
+                            justice in the city.</h5>
+
+                        <p><br></p>
+                    </center>
+                </div>
+                <div id="section4">
+                    <center>
+                        <p><br></p>
+                        <h1><u>Portfolio</u></h1>
+                        <p><br></p>
+                        <h5>My web app: <a href="https://github.com/cj-allen-git/GEOG485L_FoodandSocialJustice.git" target="_blank"> <u>Social Justice and Food Access in NM</u>
+                        </h5>
+                        <p><br></p>
+                        <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                            <!-- Indicators -->
+                            <ol class="carousel-indicators">
+                                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                                <li data-target="#myCarousel" data-slide-to="1"></li>
+                                <li data-target="#myCarousel" data-slide-to="2"></li>
+                            </ol>
+
+                            <!-- Wrapper for slides -->
+                            <div class="carousel-inner">
+                                <div class="item active">
+                                    <img src="CompostingFacilitiesMap.jpg"
+                                        alt="A map of composting facilities created for CABQ's Sustainability Department">
+                                    <div class="carousel-caption">
+                                        <h3>ArcMap</h3>
+                                        <p>A map of composting facilities created for CABQ's Sustainability Department
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="item">
+                                    <img src="LP-101.jpg" alt="AutoCAD Planting Plan">
+                                    <div class="carousel-caption">
+                                        <h3>AutoCAD</h3>
+                                        <p>Sample AutoCAD Planting Plan Sheet</p>
+                                    </div>
+                                </div>
+
+                                <div class="item">
+                                    <img src="SV.png"
+                                        alt="Google Earth map of the unincorporated South Valley and its sevices, for use in a local high school's geometry lessons">
+                                    <div class="carousel-caption">
+                                        <h3>Google Earth Pro</h3>
+                                        <p>Google Earth map of the unincorporated South Valley and its sevices, for use
+                                            in a local high school's geometry lessons</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Left and right controls -->
+                            <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                                <span class="glyphicon glyphicon-chevron-left"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                                <span class="glyphicon glyphicon-chevron-right"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                            <p><br></p>
+                    </center>
+                </div>
+
+                <div id="section5">
+                    <center>
+                        <p><br></p>
+                        <h1><u>Contact</u></h1>
+                        <h5>Email: cj.allen.gis@gmail.com</h5>
+                        <h5>Phone: 555-555-5555</h5>
+                        <h5>LinkedIn: TBD@LinkedIn</h5>
+
+                        <p><br></p>
+
+                    </center>
+                </div>
+                <div id="section6">
+                    <center>
+                        <p><br></p>
+                        <p>Bootstrap themes made by <a href="https://www.w3schools.com/" target="_blank"><u>www.w3schools.com</u></a> and <a
+                                href="geeksforgeeks.org/" target="_blank"><u>www.geeksforgeeks.org</u></a></p>
+
+                        <p><br></p>
+                    </center>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+
+    </div>
+    </div>
 </body>
+
 </html>
