@@ -107,6 +107,7 @@
  
  .legend-map {
      font-size: 12px;
+     
      /* font-family: 'Barrio'; */
  }
  
@@ -192,7 +193,7 @@
  }
  
  label {
-     text-align: left;
+     text-align: center;
  }
  
  #data-table_filter {
@@ -232,27 +233,27 @@
  }
  
  #data-table td:nth-child(1) {
-     min-width: 300px;
- }
- 
- #data-table td:nth-child(2) {
-     min-width: 200px;
- }
- 
- #data-table td:nth-child(3) {
      min-width: 150px;
  }
  
+ #data-table td:nth-child(2) {
+     min-width: 125px;
+ }
+ 
+ #data-table td:nth-child(3) {
+     min-width: 120px;
+ }
+ 
  #data-table td:nth-child(6) {
-     min-width: 350px;
+     min-width: 70px;
  }
  
  #data-table td:nth-child(9) {
-     min-width: 300px;
+     min-width: 100px;
  }
  
  #data-table td:nth-child(10) {
-     min-width: 120px;
+     min-width: 100px;
  }
  
  #data-table td:nth-child(11) {

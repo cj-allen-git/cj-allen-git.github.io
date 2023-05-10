@@ -1,3 +1,4 @@
+
 Promise.all([d3.csv("data/nmjustice40.csv"), d3.csv("data/foodaccessnm.csv"), d3.json("data/NewMexico10.json")])
     .then(function ([justic_data, food_data, nm_json]) {
         draw(justic_data, food_data, nm_json);
@@ -75,6 +76,9 @@ function draw(justic_data, food_data, nm_json) {
         return d["lahisp1share"];
     })
 
+    var snapDim = ndx.dimension(function (d) {
+        return d["TractSNAP"];
+    })
     // var pop2010Dim = ndx.dimension(function(d) {
     //     return d["Pop2010"];
     // });
@@ -95,6 +99,7 @@ function draw(justic_data, food_data, nm_json) {
     var lowIncomeGroup = lowIncomeDim.group().reduceCount();
     var percBlackGroup = percBlackDim.group().reduceCount();
     var percHispGroup = percHispDim.group().reduceCount();
+    var snapGroup = snapDim.group().reduceCount();
     var mapGroup = mapDim.group().reduceSum(function (d) {
         return d.Excede;
     });
@@ -107,8 +112,9 @@ function draw(justic_data, food_data, nm_json) {
     var foodVehChart = dc.pieChart('#chart-ring-foodVeh', groupname);
     var catsExceededChart = dc.pieChart('#chart-ring-cats', groupname)
     var lowIncomeChart = dc.barChart('#chart-ring-lowIncome', groupname);
-    var percBlackChart = dc.barChart('#chart-ring-Black', groupname);
-    var percHispChart = dc.barChart('#chart-ring-Hisp', groupname);
+    var snapChart = dc.barChart('#chart-ring-snap', groupname);
+    //  var percBlackChart = dc.barChart('#chart-ring-Black', groupname);
+    // var percHispChart = dc.barChart('#chart-ring-Hisp', groupname);
     var map = dc_leaflet.choroplethChart("#map", groupname)
     // var map = dc_leaflet.choroplethChart("#map", groupname)
 
@@ -116,7 +122,7 @@ function draw(justic_data, food_data, nm_json) {
     var dataTable = dc_datatables.datatable('#data-table', groupname);
     var dataCount = dc.dataCount('.dc-dataTitle-count', groupname);
 
-    var d3SchemeCategory20c = ['#3182bd', '#6baed6', '#9ecae1', '#c6dbef', '#e6550d', '#fd8d3c', '#fdae6b', '#fdd0a2', '#31a354', '#74c476', '#a1d99b', '#c7e9c0', '#756bb1', '#9e9ac8', '#bcbddc', '#dadaeb', '#636363', '#969696', '#bdbdbd', '#d9d9d9']
+    // var d3SchemeCategory20c = ['#3182bd', '#6baed6', '#9ecae1', '#c6dbef', '#e6550d', '#fd8d3c', '#fdae6b', '#fdd0a2', '#31a354', '#74c476', '#a1d99b', '#c7e9c0', '#756bb1', '#9e9ac8', '#bcbddc', '#dadaeb', '#636363', '#969696', '#bdbdbd', '#d9d9d9']
 
 
     map
@@ -127,7 +133,7 @@ function draw(justic_data, food_data, nm_json) {
         .center([34.528072, -106.007275])
         .zoom(6)
         .geojson(nm_json)
-        .colors(colorbrewer.YlGnBu[7])
+        .colors(colorbrewer.YlOrRd[7])
         .colorDomain([
             d3.min(mapGroup.all(), dc.pluck('value')),
             d3.max(mapGroup.all(), dc.pluck('value'))
@@ -138,12 +144,12 @@ function draw(justic_data, food_data, nm_json) {
         .featureKeyAccessor(function (feature) {
             return feature.properties.GEOID10;
         })
-        .popupMod('ctrlCmd')
-        .renderPopup(true)
-        .popup(function (d, feature) {
-            return "2010 Population: " + d.feature["Pop2010"] <br> "Tract SNAP: " + d.TractSNAP;
-        })
-        .legend(dc_leaflet.legend().position('bottomright').legendTitle("Burdens exceeded:"));
+        // .popupMod('ctrlCmd')
+        // .renderPopup(true)
+        // .popup(function (d, feature) {
+        //     return "2010 Population : " + d["Pop2010"];
+        //  })
+        .legend(dc_leaflet.legend().position('bottomright').legendTitle("Disadvantaged <br> Categories"));
 
 
     /*  L.geoJSON(foodaccessnm, {
@@ -167,19 +173,20 @@ function draw(justic_data, food_data, nm_json) {
             .highlightSelected(true));
 
 
+
     foodChart
         .width(245)
         .height(280)
         .innerRadius(70)
         .dimension(foodDim)
         .group(foodGroup)
-        .colors(d3.scaleOrdinal().domain([0, 1]))
-        .range(d3.schemeRdBu)
-        //.ordinalColors(d3.schemeSet1)
         .legend(new dc.HtmlLegend()
             .container('#food-legend')
             .horizontal(false)
             .highlightSelected(true));
+
+    foodChart.ordinalColors(['#47be3e', '#E5E815', '#c1c1c1'])
+
 
     food10Chart
         .width(245)
@@ -192,6 +199,8 @@ function draw(justic_data, food_data, nm_json) {
             .horizontal(false)
             .highlightSelected(true));
 
+    food10Chart.ordinalColors(['#47be3e', '#E1A91C', '#c1c1c1'])
+
     food20Chart
         .width(245)
         .height(280)
@@ -202,6 +211,8 @@ function draw(justic_data, food_data, nm_json) {
             .container('#food20-legend')
             .horizontal(false)
             .highlightSelected(true));
+
+    food20Chart.ordinalColors(['#47be3e', '#DD6A23', '#c1c1c1'])
 
     foodVehChart
         .width(245)
@@ -214,49 +225,115 @@ function draw(justic_data, food_data, nm_json) {
             .horizontal(false)
             .highlightSelected(true));
 
+    foodVehChart.ordinalColors(['#47be3e', '#D92B2B', '#c1c1c1'])
+
     catsExceededChart
         .width(245)
         .height(280)
         .innerRadius(70)
         .dimension(catsExceededDim)
         .group(catsExceededGroup)
-        .colors(d3.scaleOrdinal().domain(['0', '1', '2', '3', '4', '5', '6', '7']))
-        .range(['#F6ED6D', '#DAD176', '#BFB57F', '#BFB57F', '#887E91', '#6C629A', '#5146A3', '#362BAC'])
+        // .colors(d.scale.ordinal().range(['red','green']))
         .legend(new dc.HtmlLegend()
             .container('#cats-legend')
             .horizontal(false)
             .highlightSelected(true));
 
+    // catsExceededChart.ordinalColors(['#FF1010', '#E42914', '#CA4219', '#AF5B1E', '#957523', '#7B8E28', '#60A72D', '#46C032', '#2CDA37']);
 
-    percBlackChart
-        .width(300)
-        .height(250)
-        .x(d3.scaleBand())
-        .xUnits(dc.units.ordinal)
-        .brushOn(false)
-        .yAxisLabel("Percent Black")
-        .dimension(percBlackDim)
-        .group(percBlackGroup)
+    catsExceededChart.ordinalColors(['#FAF8BD', '#F5DEAA', '#F1C498', '#EDAB86', '#E99174', '#E57761', '#E15E4F', '#DD443D', '#D92B2B']);
 
-    percHispChart
-        .width(300)
-        .height(250)
-        .x(d3.scaleBand())
-        .xUnits(dc.units.ordinal)
-        .brushOn(false)
-        .yAxisLabel("Percent Hispanic")
-        .dimension(percHispDim)
-        .group(percHispGroup)
+    // comented out by Dr. Yang
+    // lowIncomeChart
+    //     .width(1200)
+    //     .height(280)
+    //     .x(d3.scaleBand())
+    //     .xUnits(dc.units.ordinal)
+    //     .brushOn(false)
+    //     .yAxisLabel("Poverty rate")
+    //     .dimension(lowIncomeDim)
+    //     .group(lowIncomeGroup)
+
+
+    // Dr. Yang added for bar chart Start
 
     lowIncomeChart
-        .width(1200)
-        .height(280)
-        .x(d3.scaleBand())
-        .xUnits(dc.units.ordinal)
-        .brushOn(false)
-        .yAxisLabel("Poverty rate")
+        .width(700)
+        .height(400)
+        .margins({ top: 10, right: 20, bottom: 35, left: 50 }) // because of the x axix label, need to set the bootom margin a large number
+        .x(d3.scaleLinear().domain([0, 70]))   //d3.scale.ordinal().domain(genusDim) //d3.scaleBand() for d3 v4 //May want to make this non-ordinal
+        // .xUnits(dc.units.linear)
+        .linearColors(["#008080"])
+        .brushOn(true)
+        .xAxisLabel('Poverty Rate Percent (%)')
+        .yAxisLabel('Number of Tracts')
+        // .elasticX(true)
+        .elasticY(true)
+        .yAxisPadding('10%')
+        .xAxisPadding('20%')
         .dimension(lowIncomeDim)
+        .barPadding(0.02)
+        .outerPadding(0.05)
         .group(lowIncomeGroup)
+        .renderlet(function (chart) {
+            chart.selectAll("g.x text")
+                // .attr('dx', '-30')
+                .attr('dx', '0')
+                .attr('transform', "rotate(0)");
+        });
+    // need to tweak this...
+    lowIncomeChart.xAxis().tickValues([0, 10, 20, 30, 40, 50, 60, 70]);
+
+    // Dr. Yang added for bar chart End
+
+    snapChart
+        .width(700)
+        .height(370)
+        .margins({ top: 10, right: 20, bottom: 35, left: 50 }) // because of the x axix label, need to set the bootom margin a large number
+        .x(d3.scaleLinear().domain([0, 1400]))   //d3.scale.ordinal().domain(genusDim) //d3.scaleBand() for d3 v4 //May want to make this non-ordinal
+        // .xUnits(dc.units.linear)
+        .linearColors(["#008080"])
+        .brushOn(true)
+        .xAxisLabel('SNAP Recipients')
+        .yAxisLabel('Number of Tracts')
+        .elasticY(true)
+        .yAxisPadding('10%')
+        .xAxisPadding('20%')
+        .dimension(snapDim)
+        .barPadding(0.02)
+        .outerPadding(0.05)
+        .group(snapGroup)
+        .renderlet(function (chart) {
+            chart.selectAll("g.x text")
+                .attr('dx', '0')
+                .attr('transform', "rotate(0)");
+        });
+    snapChart.xAxis().tickValues([5, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400]);
+    // lowIncomeChart.yAxis().tickValues([1, 2, 3, 4, 5, 6, 7]); didn't work
+
+
+
+
+
+    /* percBlackChart
+         // .width(500)
+         // .height(250)
+          .x(d3.scaleBand())
+          //.xUnits(dc.units.ordinal)
+          .brushOn(false)
+          .yAxisLabel("Percent Black")
+          .dimension(percBlackDim)
+          .group(percBlackGroup)*/
+
+    /* percHispChart
+         .width(500)
+         .height(250)
+         .x(d3.scaleBand())
+         .xUnits(dc.units.ordinal)
+         .brushOn(false)
+         .yAxisLabel("Percent Hispanic")
+         .dimension(percHispDim)
+         .group(percHispGroup)*/
 
     dataCount
         .dimension(ndx)
@@ -271,7 +348,7 @@ function draw(justic_data, food_data, nm_json) {
         .group(function (d) {
             return 'dc.js insists on putting a row here so I remove it using JS';
         })
-        .size(10)
+        .size(15)
         .columns([{
             label: 'GEOID10',
             type: 'string',
@@ -279,12 +356,6 @@ function draw(justic_data, food_data, nm_json) {
                 return d["GEOID10"];
             }
 
-        }, {
-            label: 'Pop2010',
-            type: 'num',
-            format: function (d) {
-                return d["Pop2010"];
-            }
         }, {
             label: 'State',
             type: 'num',
@@ -298,52 +369,88 @@ function draw(justic_data, food_data, nm_json) {
                 return d["County"];
             }
         }, {
-            label: 'OHU2010',
+            label: 'Population',
             type: 'num',
             format: function (d) {
-                return d["OHU2010"];
+                return d["Pop2010"];
             }
         }, {
-            label: 'GroupQuartersFlag',
-            type: 'num',
-            format: function (d) {
-                return d["GroupQuartersFlag"];
-            }
-        }, {
-            label: 'NUMGQTRS',
-            type: 'num',
-            format: function (d) {
-                return d["NUMGQTRS"];
-            }
-        }, {
-            label: 'LILATracts_1And10',
-            type: 'num',
-            format: function (d) {
-                return d["LILATracts_1And10"];
-            }
-        }, {
-            label: 'MedianFamilyIncome',
+            label: 'Median Family Income ($)',
             type: 'num',
             format: function (d) {
                 return d["MedianFamilyIncome"];
             }
         }, {
-            label: 'PCTGQTRS',
-            type: 'num',
-            format: function (d) {
-                return d["PCTGQTRS"];
-            }
-        }, {
-            label: 'PovertyRate',
+            label: 'Poverty Rate %',
             type: 'num',
             format: function (d) {
                 return d["PovertyRate"];
             }
         }, {
-            label: 'LowIncomeTracts',
+            label: 'Population: White',
             type: 'num',
             format: function (d) {
-                return d["LowIncomeTracts"];
+                return d["TractWhite"];
+            }
+        }, {
+            label: 'Population: Black',
+            type: 'num',
+            format: function (d) {
+                return d["TractBlack"];
+            }
+        }, {
+            label: 'Population: Asian',
+            type: 'num',
+            format: function (d) {
+                return d["TractAsian"];
+            }
+        }, {
+            label: 'Population: Native Hawaian or Pacific Islander',
+            type: 'num',
+            format: function (d) {
+                return d["TractNHOPI"];
+            }
+        }, {
+            label: 'Population: American Indian or Alaska Native',
+            type: 'num',
+            format: function (d) {
+                return d["TractAIAN"];
+            }
+        }, {
+            label: 'Population: Hispanic',
+            type: 'num',
+            format: function (d) {
+                return d["TractHispanic"];
+            }
+        }, {
+            label: 'Population: Multiracial',
+            type: 'num',
+            format: function (d) {
+                return d["TractOMultir"];
+            }
+        }, {
+            label: 'Population: Seniors',
+            type: 'num',
+            format: function (d) {
+                return d["TractSeniors"];
+            }
+        }, {
+            label: 'Population: Kids',
+            type: 'num',
+            format: function (d) {
+                return d["TractKids"];
+            }
+        }, {
+            label: 'Flood Risk %',
+            type: 'num',
+            format: function (d) {
+                return d["Flood"];
+            }
+        }, {
+            label: 'Fire Risk %',
+            type: 'num',
+            format: function (d) {
+                return d["Fire"];
             }
         }
 
